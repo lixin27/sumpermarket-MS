@@ -1,0 +1,132 @@
+1 项目的目标
+    1）熟练使用vue组件化开发方式。（*****）
+    2）熟练使用 axios 进行前后端数据交互。（*****）
+    3）掌握 git版本控制 的使用(用命令行)。
+    4）熟悉后端的增删改查逻辑。
+    5）对整个完整项目的前后端所有的交互流程有个了解。
+
+Day01:
+1 git的使用常用命令
+    git clone 仓库地址         // 第一次从服务器下载代码
+    git status                // 查看状态     
+    git add .                 // 纳入版本控制 
+    git commit -m"简单描述"    // 提交到本地仓库
+
+    git push 仓库地址/ master          // 推送到远程仓库
+    推送到远程仓库可以这样写: git push origin master
+
+    git pull 仓库地址/ master          // 从远程仓库拉取  
+
+    项目仓库地址: https://github.com/sineLT/supms-system.git
+
+    // 配置邮箱 和 用户名
+    git config --global user.email "你的邮箱@qq.com";
+    git config --global uesr.name "你的账号";
+
+2 项目的启动
+    1) cnpm i 安装所有依赖 
+    2) npm run serve 启动项目
+    
+    注意：
+    项目地址:  http://127.0.0.1:8080
+
+3 项目的目录分配
+    views： 放页面级别的组件
+    components: 放小组件（主要是一些公用的组件）
+
+4 项目集成Element-ui
+    1) 下载 
+        cnpm i element-ui@2.4.11 --save
+
+    2) 在入口文件 main.js 中引入
+        import ElementUI from 'element-ui';            // 组件文件（js）
+        import 'element-ui/lib/theme-chalk/index.css'; // 样式文件
+
+    3）注册elementui
+        Vue.use(ElementUI);
+
+5 登录页面的实现
+    1）登录组件实现（复制组件代码修改）
+    2）表单验证。
+        { required: true必填， message: "非空", trigger: "触发的方式" },
+        { min: 3.， max: 6,  message: "长度3 - 6", trigger: "触发的方式" },
+        { require: true, validator: 自定义函数名, trigger: "触发的方式" },
+
+        // 验证函数
+        const 自定义函数名 = (rule, value, callback) => {
+            // const regExp = /xxxxxxx/;
+
+            // value 就是用户输入的值
+            if (value === '') {
+                callback(new Error("不能为空"))
+            } else if (value.length < 3 || value.length > 6) {
+                callback(new Error("长度必须3 - 6 位"))
+            } else if (!regExp.test(value)) {
+                callback(new Error("不能包含特殊字符"))
+            } else {
+                callback(); // 成功的回调 绿色的勾勾
+            }
+        }
+    3）两个函数
+        a) 点击登录按钮 触发 submitForm() 函数
+        submitForm()做提交验证 有一个变量叫valid 如果所有前端验证都通过，那么就是true 允许发送请求给后端
+        否则，就不允许发送请求给后端。
+
+        b) 点击重置按钮 触发 resetForm() 函数
+
+6 路由的分配（一个路径path，对应一个组件component）
+    exprot default new Router({
+        routes: [
+            {
+                path: '/login',
+                component: () => import('./views/Login/Login.vue')
+            },
+            {
+                path: '/',
+                component: () => import('./views/Index/Index.vue'),
+                children: [
+                    {
+                        path: '',  // 需要一个默认首页 没有路径
+                        component: () => import('./views/Home/Home.vue')
+                    },
+                    {
+                        path: '/accountmanage',  // 账号管理的路径
+                        name: 'accountmanage',
+                        component: () => import('./views/AccountManage/AccountManage.vue') // 账号管理的组件
+                    },
+                    {
+                        path: '/accountadd', // 添加账号的路径
+                        name: 'accountadd',
+                        component: () => import('./views/AccountAdd/AccountAdd.vue') // 添加账号的组件
+                    }
+                ]
+            }
+        ];
+    })
+
+    // 路由跳转
+    this.$router.push('/你要跳转到的路径')
+
+    // 在组件中获取导航路径地址
+    this.$route.path;
+
+
+7 后端首页的实现
+    1) 左侧导航组件的实现（复制粘贴修改）
+    2）右侧头部组件抽取
+    3）右侧尾部组件抽取
+
+Day02:
+    1) 组件强化
+        a) 后端首页组件
+        b) 账号添加组件
+        c) 账号列表组件
+
+    2) 搭建后端服务器，连接mysql数据库。
+
+    3) 前后端数据交互。
+
+
+
+
+        
